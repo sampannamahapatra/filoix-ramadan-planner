@@ -9,7 +9,11 @@ export default function DownloadButton({ targetId }: { targetId: string }) {
         const node = document.getElementById(targetId);
         if (!node) return;
 
-        toPng(node, { cacheBust: true, backgroundColor: '#0f172a' })
+        toPng(node, {
+            cacheBust: true,
+            backgroundColor: '#022c22',
+            pixelRatio: 2
+        })
             .then((dataUrl) => {
                 const link = document.createElement('a');
                 link.download = 'ramadan-schedule.png';
@@ -27,7 +31,7 @@ export default function DownloadButton({ targetId }: { targetId: string }) {
             className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg transition-colors text-sm font-medium"
         >
             <Download size={16} />
-            Save as Image
+            ছবি হিসেবে সেভ করুন
         </button>
     );
 }

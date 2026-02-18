@@ -203,7 +203,7 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
                             )}
 
                             {view === 'calendar' && (
-                                <CalendarView fullSchedule={schedule} />
+                                <CalendarView fullSchedule={schedule} districtName={selectedDistrict?.name} />
                             )}
 
                             {view === 'planner' && (
