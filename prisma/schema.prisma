@@ -1,0 +1,71 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  districtId    String?   // For default location
+  role          String    @default("USER") // USER, ADMIN
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  plannerLogs   PlannerLog[]
+
+  tasbeehs      Tasbeeh[]
+  plannerTasks  PlannerTask[]
+
+  selectedPlan  String    @default("INDEPENDENT") // BEGINNER, ADVANCED, INDEPENDENT
+}
+
+// Pre-defined or User-defined Tasbeehs
+model Tasbeeh {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  target    Int      @default(100)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs      TasbeehLog[]
+}
+
+model TasbeehLog {
+  id        String   @id @default(cuid())
+  tasbeehId String
+  count     Int
+  date      String   // YYYY-MM-DD
+  tasbeeh   Tasbeeh  @relation(fields: [tasbeehId], references: [id], onDelete: Cascade)
+
+  @@unique([tasbeehId, date])
+}
+
+// Generic Task Model for Planner (System or User defined)
+model PlannerTask {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  category  String   // "Obligatory", "Nofol", "GoodDeeds"
+  isSystem  Boolean  @default(false) 
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs      PlannerLog[]
+}
+
+model PlannerLog {
+  id        String      @id @default(cuid())
+  userId    String
+  taskId    String
+  completed Boolean
+  date      String      // YYYY-MM-DD
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task      PlannerTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskId, date])
+}
