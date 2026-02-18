@@ -124,7 +124,7 @@ export default function Report() {
                 <div className="text-center md:text-left">
                     <h2 className="text-2xl font-serif font-bold text-white mb-1 flex items-center gap-2 justify-center md:justify-start">
                         <TrendingUp size={24} className="text-emerald-400" />
-                        রিপোর্ট ও পরিসংখ্যান
+                        আপনার অগ্রগতির রিপোর্ট
                     </h2>
                     <p className="text-gray-400 text-sm">আপনার রমজানের আমলের অগ্রগতি</p>
                 </div>

@@ -14,7 +14,7 @@ const NAMES = [
 export default function NamesCarousel() {
     return (
         <div className="w-full overflow-hidden py-10">
-            <h2 className="text-center text-emerald-400 uppercase tracking-widest text-xs font-bold mb-6">তিনি সবকিছু সুন্দর করেছেন</h2>
+            <h2 className="text-center text-emerald-400 uppercase tracking-widest text-xs font-bold mb-6">আল্লাহর সুন্দর ৯৯টি নাম পড়ুন</h2>
             <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#022c22] to-transparent z-10" />
                 <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#022c22] to-transparent z-10" />

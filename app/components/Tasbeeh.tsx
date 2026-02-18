@@ -247,6 +247,14 @@ export default function Tasbeeh() {
 
     return (
         <div className="glass rounded-3xl p-6 relative overflow-hidden group min-h-[300px] flex flex-col justify-between transition-all duration-300 hover:border-emerald-500/30">
+            {/* Heading */}
+            <div className="relative z-10 mb-4 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <RotateCcw size={16} />
+                </div>
+                <h2 className="text-xl font-serif font-bold text-white">তাসবীহ পড়ুন</h2>
+            </div>
+
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                 <svg width="100%" height="100%">

@@ -28,6 +28,13 @@ export default function DuaCard() {
                 <BookOpen size={120} />
             </div>
 
+            <div className="relative z-10 mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <BookOpen size={20} />
+                </div>
+                <h2 className="text-2xl font-serif font-bold text-white">দোয়া ও মোনাজাত পড়ুন</h2>
+            </div>
+
             <div className="flex gap-4 mb-6 relative z-10">
                 {DUAS.map((dua, idx) => (
                     <button

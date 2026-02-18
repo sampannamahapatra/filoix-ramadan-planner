@@ -21,13 +21,13 @@ export const translations = {
         next: "পরবর্তী",
 
         // Calendar
-        fullSchedule: "সম্পূর্ণ সময়সূচী",
+        fullSchedule: "পূর্ণাঙ্গ রমজান ক্যালেন্ডার ২০২৫",
         date: "তারিখ",
         day: "দিন",
         download: "ডাউনলোড করুন",
 
         // Planner
-        dailyTracker: "দৈনিক আমল",
+        dailyTracker: "আপনার আজকের আমলনামা পূরণ করুন",
         trackerSubtitle: "ছোট আমলও আল্লাহ পছন্দ করেন",
         completed: "সম্পন্ন",
         categories: {

@@ -109,6 +109,8 @@ export default function TodayCard({ schedule, nextSchedule }: Props) {
                         <span>{t.ramadan} {schedule.day}</span>
                     </div>
 
+                    <h2 className="text-xl font-serif font-bold text-emerald-400 mb-2">আজকের সময়সূচী</h2>
+
                     <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-2 tracking-tight">
                         {schedule.date.split(' ')[0]}
                         <span className="text-2xl md:text-3xl text-gray-400 font-sans font-normal ml-2">{schedule.date.split(' ').slice(1).join(' ')}</span>
