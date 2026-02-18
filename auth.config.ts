@@ -7,7 +7,7 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname.startsWith('/profile') || nextUrl.pathname === '/';
+            const isProtected = nextUrl.pathname.startsWith('/profile') || nextUrl.pathname.startsWith('/admin');
             const isOnAuth = nextUrl.pathname.startsWith('/login') || nextUrl.pathname.startsWith('/register');
 
             if (isOnAuth) {
@@ -17,11 +17,12 @@ export const authConfig = {
                 return true;
             }
 
-            if (isOnDashboard) {
+            if (isProtected) {
                 if (isLoggedIn) return true;
                 return false; // Redirect unauthenticated users to login page
             }
 
+            // All other pages (including /) are publicly accessible
             return true;
         },
     },
