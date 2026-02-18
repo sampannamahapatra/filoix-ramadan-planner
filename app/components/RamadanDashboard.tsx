@@ -221,11 +221,11 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
                     <PromoBanner />
                     <p className="opacity-60 mt-4">{t.dataSource}</p>
                     <div className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
-                        <span className="text-gray-500 text-xs uppercase tracking-widest">তৈরি করেছে</span>
-                        <span className="text-xl font-bold font-serif text-white flex items-center gap-1">
+                        <span className="text-gray-500 text-xs uppercase tracking-widest">Powered by</span>
+                        <a href="https://www.facebook.com/filoix" target="_blank" rel="noopener noreferrer" className="text-xl font-bold font-serif text-white flex items-center gap-1 hover:text-emerald-400 transition-colors">
                             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                             Filoix
-                        </span>
+                        </a>
                     </div>
                 </footer>
             </div>
