@@ -94,42 +94,64 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
 
             {/* Fixed Header */}
             <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#022c22]/90 backdrop-blur-xl shadow-2xl shadow-black/30 border-b border-white/5' : 'bg-transparent'}`}>
-                <div className="max-w-6xl mx-auto px-4 md:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        {/* Logo + Title */}
+                <div className="max-w-6xl mx-auto px-3 md:px-8">
+                    {/* Desktop header */}
+                    <div className="hidden md:flex items-center justify-between h-16">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                                 <span className="text-lg">🌙</span>
                             </div>
-                            <div className="hidden md:block">
+                            <div>
                                 <h1 className="text-lg font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-white leading-tight">
                                     ফিলোইক্স রমজান ক্যালেন্ডার
                                 </h1>
                                 <p className="text-[10px] text-emerald-400/80 tracking-widest uppercase">{selectedDistrict?.name} • {t.subtitle}</p>
                             </div>
                         </div>
-
-                        {/* Nav Tabs */}
                         <nav className="flex items-center gap-1">
                             {tabs.map(tab => (
                                 <button
                                     key={tab.key}
                                     onClick={() => setView(tab.key)}
-                                    className={`px-3 md:px-5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-300 ${view === tab.key
+                                    className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${view === tab.key
                                         ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                        }`}
+                                        : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
                                 >
                                     {tab.label}
                                 </button>
                             ))}
                         </nav>
                     </div>
+
+                    {/* Mobile header */}
+                    <div className="md:hidden">
+                        <div className="flex items-center justify-between h-14">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-sm">🌙</span>
+                                </div>
+                                <span className="text-sm font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-white">রমজান</span>
+                            </div>
+                        </div>
+                        <div className="flex gap-1 pb-2 overflow-x-auto scrollbar-hide -mx-1 px-1">
+                            {tabs.map(tab => (
+                                <button
+                                    key={tab.key}
+                                    onClick={() => setView(tab.key)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${view === tab.key
+                                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+                                        : 'text-gray-400 hover:text-white bg-white/5'}`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </header>
 
             {/* Content starts below fixed header */}
-            <div className="pt-24">
+            <div className="pt-28 md:pt-24">
                 {/* District Selector (only on Today view) */}
                 {view === 'today' && (
                     <div className="mb-10 px-4">
@@ -164,15 +186,19 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
                             transition={{ duration: 0.3 }}
                         >
                             {view === 'today' && todaySchedule && (
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <TodayCard
-                                        schedule={todaySchedule}
-                                        nextSchedule={schedule.find(s => parseInt(s.date) === todayDate + 1) || schedule[0]}
-                                    />
-                                    <div className="col-span-1 space-y-6">
-                                        <Tasbeeh />
+                                <div className="space-y-8">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <TodayCard
+                                            schedule={todaySchedule}
+                                            nextSchedule={schedule.find(s => parseInt(s.date) === todayDate + 1) || schedule[0]}
+                                        />
+                                        <div className="col-span-1 space-y-6">
+                                            <Tasbeeh />
+                                        </div>
+                                        <DuaCard />
                                     </div>
-                                    <DuaCard />
+                                    {/* আমলনামা on homepage */}
+                                    <Planner />
                                 </div>
                             )}
 
