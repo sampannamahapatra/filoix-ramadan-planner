@@ -10,6 +10,7 @@ import Planner from './Planner';
 import DuaCard from './DuaCard';
 import Tasbeeh from './Tasbeeh';
 import NamesCarousel from './NamesCarousel';
+import PromoBanner from './PromoBanner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { translations } from '../lib/translations';
 
@@ -171,7 +172,8 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
             </div>
 
             <footer className="mt-24 text-center text-gray-500 text-sm pb-8 relative z-10 flex flex-col items-center gap-2">
-                <p className="opacity-60">{t.dataSource}</p>
+                <PromoBanner />
+                <p className="opacity-60 mt-4">{t.dataSource}</p>
                 <div className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
                     <span className="text-gray-500 text-xs uppercase tracking-widest">Powered by</span>
                     <span className="text-xl font-bold font-serif text-white flex items-center gap-1">

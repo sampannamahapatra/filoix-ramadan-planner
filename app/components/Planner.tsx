@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Plus, Trash2, LayoutGrid, Calendar as CalIcon, Settings, ChevronLeft, ChevronRight, ArrowRight, Eye, List } from 'lucide-react';
+import { Check, Plus, Trash2, LayoutGrid, Calendar as CalIcon, Settings, ChevronLeft, ChevronRight, ArrowRight, Eye, List, LogIn } from 'lucide-react';
 import { translations } from '../lib/translations';
 import { getPlannerSetup, togglePlannerTask, addPlannerTask, deletePlannerTask, selectPlan, getMonthProgress, resetPlanner } from '../lib/actions';
 import { RAMADAN_SCHEDULE } from '../lib/schedule-data';
+import Link from 'next/link';
 
 interface PlannerTask {
     id: string;
@@ -21,6 +22,7 @@ export default function Planner() {
     const [loading, setLoading] = useState(true);
     const [viewMode, setViewMode] = useState<'daily' | 'grid'>('daily');
     const [monthProgress, setMonthProgress] = useState<Record<string, { completed: number, total: number }>>({});
+    const [isGuest, setIsGuest] = useState(false);
 
     // UI State
     const [showPlanSelection, setShowPlanSelection] = useState(false);
@@ -30,6 +32,80 @@ export default function Planner() {
     const [isAdding, setIsAdding] = useState(false);
     const [newTaskName, setNewTaskName] = useState('');
     const [addCategory, setAddCategory] = useState('');
+
+    // --- GUEST MODE HELPERS ---
+    const GUEST_PLAN_TASKS: Record<string, { name: string, category: string, isSystem: boolean }[]> = {
+        BEGINNER: [
+            { name: "Pray Fajr", category: "Obligatory", isSystem: true },
+            { name: "Pray Dhuhr", category: "Obligatory", isSystem: true },
+            { name: "Pray Asr", category: "Obligatory", isSystem: true },
+            { name: "Pray Maghrib", category: "Obligatory", isSystem: true },
+            { name: "Pray Isha", category: "Obligatory", isSystem: true },
+            { name: "Taraweeh", category: "Spiritual", isSystem: true },
+            { name: "Daily Quran Target", category: "Spiritual", isSystem: true },
+            { name: "Give Sadaqah", category: "GoodDeeds", isSystem: false },
+        ],
+        ADVANCED: [
+            { name: "Pray Fajr", category: "Obligatory", isSystem: true },
+            { name: "Pray Dhuhr", category: "Obligatory", isSystem: true },
+            { name: "Pray Asr", category: "Obligatory", isSystem: true },
+            { name: "Pray Maghrib", category: "Obligatory", isSystem: true },
+            { name: "Pray Isha", category: "Obligatory", isSystem: true },
+            { name: "Taraweeh", category: "Spiritual", isSystem: true },
+            { name: "Daily Quran Target", category: "Spiritual", isSystem: true },
+            { name: "Tahajjud Prayer", category: "Spiritual", isSystem: true },
+            { name: "Morning Adhkar", category: "Spiritual", isSystem: false },
+            { name: "Evening Adhkar", category: "Spiritual", isSystem: false },
+            { name: "Give Sadaqah", category: "GoodDeeds", isSystem: false },
+            { name: "No Backbiting", category: "GoodDeeds", isSystem: false },
+        ],
+        INDEPENDENT: [
+            { name: "Pray Fajr", category: "Obligatory", isSystem: true },
+            { name: "Pray Dhuhr", category: "Obligatory", isSystem: true },
+            { name: "Pray Asr", category: "Obligatory", isSystem: true },
+            { name: "Pray Maghrib", category: "Obligatory", isSystem: true },
+            { name: "Pray Isha", category: "Obligatory", isSystem: true },
+            { name: "Read Quran", category: "Spiritual", isSystem: false },
+            { name: "Taraweeh", category: "Spiritual", isSystem: false },
+        ],
+    };
+
+    function getGuestTasks(plan: string, date: string): PlannerTask[] {
+        const taskDefs = GUEST_PLAN_TASKS[plan] || GUEST_PLAN_TASKS.INDEPENDENT;
+        const savedStr = localStorage.getItem(`guest_planner_${date}`) || '{}';
+        const saved: Record<string, boolean> = JSON.parse(savedStr);
+        return taskDefs.map((t, i) => ({
+            id: `guest-${i}`,
+            name: t.name,
+            category: t.category,
+            isSystem: t.isSystem,
+            completed: saved[t.name] || false,
+        }));
+    }
+
+    function saveGuestToggle(taskName: string, completed: boolean, date: string) {
+        const savedStr = localStorage.getItem(`guest_planner_${date}`) || '{}';
+        const saved: Record<string, boolean> = JSON.parse(savedStr);
+        saved[taskName] = completed;
+        localStorage.setItem(`guest_planner_${date}`, JSON.stringify(saved));
+    }
+
+    function getGuestMonthProgress(plan: string): Record<string, { completed: number, total: number }> {
+        const progress: Record<string, { completed: number, total: number }> = {};
+        const taskCount = (GUEST_PLAN_TASKS[plan] || GUEST_PLAN_TASKS.INDEPENDENT).length;
+        for (let i = 0; i < 35; i++) {
+            const d = new Date();
+            d.setDate(d.getDate() - 5 + i);
+            const ds = d.toISOString().split('T')[0];
+            const savedStr = localStorage.getItem(`guest_planner_${ds}`) || '{}';
+            const saved: Record<string, boolean> = JSON.parse(savedStr);
+            const completed = Object.values(saved).filter(Boolean).length;
+            if (completed > 0) {
+                progress[ds] = { completed, total: taskCount };
+            }
+        }
+        return progress;
+    }
 
     useEffect(() => {
         const today = new Date().toISOString().split('T')[0];
@@ -42,40 +118,80 @@ export default function Planner() {
         setLoading(true);
         const data = await getPlannerSetup(date);
 
-        if ('plan' in data) {
+        if ('plan' in data && data.tasks.length > 0) {
+            // Logged-in user with data
             setTasks(data.tasks);
             setCurrentPlan(data.plan);
-            // Show plan selection if no tasks found (first time user or reset)
-            if (data.tasks.length === 0) {
+            setIsGuest(false);
+        } else {
+            // Guest mode: use localStorage
+            setIsGuest(true);
+            const savedPlan = localStorage.getItem('guest_selected_plan') || '';
+            if (savedPlan) {
+                setCurrentPlan(savedPlan);
+                setTasks(getGuestTasks(savedPlan, date));
+            } else {
+                setTasks([]);
                 setShowPlanSelection(true);
             }
-        } else {
-            setTasks([]);
         }
         setLoading(false);
     }
 
     async function loadProgress() {
-        const prog = await getMonthProgress();
-        setMonthProgress(prog);
+        if (isGuest && currentPlan) {
+            setMonthProgress(getGuestMonthProgress(currentPlan));
+        } else {
+            const prog = await getMonthProgress();
+            setMonthProgress(prog);
+        }
     }
+
+    // Reload progress when guest state or plan changes
+    useEffect(() => {
+        if (isGuest && currentPlan) {
+            setMonthProgress(getGuestMonthProgress(currentPlan));
+        }
+    }, [isGuest, currentPlan, tasks]);
 
     const handleStartPlan = async (plan: string) => {
         if (tasks.length > 0 && !confirm(`আপনি কি নতুন প্ল্যান শুরু করতে চান? এটি আপনার আগের ডাটা রিসেট করবে।`)) return;
         setLoading(true);
-        await selectPlan(plan);
-        await loadTasks(dateStr);
+        if (isGuest) {
+            localStorage.setItem('guest_selected_plan', plan);
+            setCurrentPlan(plan);
+            setTasks(getGuestTasks(plan, dateStr));
+        } else {
+            await selectPlan(plan);
+            await loadTasks(dateStr);
+        }
         await loadProgress();
         setPreviewPlan(null);
         setShowPlanSelection(false);
+        setLoading(false);
     };
 
     const handleForceReset = async () => {
         if (!confirm("সম্পূর্ণ ডাটা রিসেট করবেন?")) return;
         setLoading(true);
-        await resetPlanner();
-        await loadTasks(dateStr);
+        if (isGuest) {
+            localStorage.removeItem('guest_selected_plan');
+            // Clear all guest planner data
+            for (let i = 0; i < 35; i++) {
+                const d = new Date();
+                d.setDate(d.getDate() - 5 + i);
+                const ds = d.toISOString().split('T')[0];
+                localStorage.removeItem(`guest_planner_${ds}`);
+            }
+            setCurrentPlan('');
+            setTasks([]);
+            setShowPlanSelection(true);
+        } else {
+            await resetPlanner();
+            await loadTasks(dateStr);
+        }
         await loadProgress();
+        setLoading(false);
     };
 
     const categories = [
@@ -88,8 +204,13 @@ export default function Planner() {
         const newStatus = !task.completed;
         const newTasks = tasks.map(t => t.id === task.id ? { ...t, completed: newStatus } : t);
         setTasks(newTasks);
-        await togglePlannerTask(task.id, newStatus, dateStr);
-        loadProgress();
+        if (isGuest) {
+            saveGuestToggle(task.name, newStatus, dateStr);
+            setMonthProgress(getGuestMonthProgress(currentPlan));
+        } else {
+            await togglePlannerTask(task.id, newStatus, dateStr);
+            loadProgress();
+        }
     };
 
     const handleAdd = async () => {
@@ -312,6 +433,18 @@ export default function Planner() {
                     </div>
                 </div>
             </div>
+
+            {/* Guest Mode Banner */}
+            {isGuest && (
+                <div className="mb-6 px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-3 animate-in fade-in duration-300">
+                    <p className="text-amber-200 text-sm">
+                        🔒 আপনার ডাটা শুধু এই ব্রাউজারে সেভ আছে। স্থায়ীভাবে সেভ করতে লগইন করুন।
+                    </p>
+                    <Link href="/login" className="shrink-0 flex items-center gap-1.5 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 rounded-lg text-amber-200 text-xs font-bold transition-colors">
+                        <LogIn size={14} /> লগইন
+                    </Link>
+                </div>
+            )}
 
             {/* Daily View */}
             {viewMode === 'daily' ? (

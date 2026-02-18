@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "./components/Navbar";
-import PromoBanner from "./components/PromoBanner";
 
 export default function RootLayout({
   children,
@@ -30,7 +29,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-custom-bg text-white`}
       >
-        <PromoBanner />
         <Navbar />
         {children}
       </body>
