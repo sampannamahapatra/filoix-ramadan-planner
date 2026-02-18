@@ -138,7 +138,7 @@ export default function TodayCard({ schedule, nextSchedule }: Props) {
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                         <span className="text-gray-400 text-xs uppercase tracking-widest mb-1">{t.timeLeft}</span>
                         <span className="text-3xl font-bold font-mono text-white tabular-nums">{timeLeft}</span>
-                        <span className="text-emerald-400 text-xs font-medium mt-1">{t.next}: {nextEvent}</span>
+                        <span className="text-emerald-400 text-xs font-medium mt-1">{t.next}: {nextEvent === 'Sehri' ? 'সেহরি' : 'ইফতার'}</span>
                     </div>
                 </div>
 

@@ -11,11 +11,26 @@ interface TasbeehItem {
     count: number;
 }
 
+const DEFAULT_GUEST_TASBEEHS: TasbeehItem[] = [
+    { id: 'g1', name: 'সুবহানাল্লাহ', target: 1000, count: 0 },
+    { id: 'g2', name: 'আলহামদুলিল্লাহ', target: 1000, count: 0 },
+    { id: 'g3', name: 'আল্লাহু আকবার', target: 1000, count: 0 },
+];
+
+function getBadge(count: number): { icon: string; name: string; color: string } {
+    if (count >= 5000) return { icon: '💎', name: 'ডায়মন্ড', color: 'text-cyan-300' };
+    if (count >= 1000) return { icon: '🥇', name: 'গোল্ড', color: 'text-yellow-400' };
+    if (count >= 500) return { icon: '🥈', name: 'সিলভার', color: 'text-gray-300' };
+    if (count >= 100) return { icon: '🥉', name: 'ব্রোঞ্জ', color: 'text-amber-600' };
+    return { icon: '🌱', name: 'শুরু', color: 'text-emerald-400' };
+}
+
 export default function Tasbeeh() {
     const t = translations.bn;
     const [tasbeehs, setTasbeehs] = useState<TasbeehItem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [isGuest, setIsGuest] = useState(false);
 
     // Edit/Add Mode
     const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +39,7 @@ export default function Tasbeeh() {
 
     const [isAdding, setIsAdding] = useState(false);
     const [newName, setNewName] = useState('');
-    const [newTarget, setNewTarget] = useState(33);
+    const [newTarget, setNewTarget] = useState(1000);
 
     useEffect(() => {
         loadTasbeehs();
@@ -32,8 +47,25 @@ export default function Tasbeeh() {
 
     async function loadTasbeehs() {
         const data = await getTasbeehs();
-        setTasbeehs(data);
+        if (data && data.length > 0) {
+            setTasbeehs(data);
+            setIsGuest(false);
+        } else {
+            // Guest mode — use localStorage
+            setIsGuest(true);
+            const saved = localStorage.getItem('guest_tasbeehs');
+            if (saved) {
+                setTasbeehs(JSON.parse(saved));
+            } else {
+                setTasbeehs(DEFAULT_GUEST_TASBEEHS);
+                localStorage.setItem('guest_tasbeehs', JSON.stringify(DEFAULT_GUEST_TASBEEHS));
+            }
+        }
         setLoading(false);
+    }
+
+    function saveGuestTasbeehs(updated: TasbeehItem[]) {
+        localStorage.setItem('guest_tasbeehs', JSON.stringify(updated));
     }
 
     const currentTasbeeh = tasbeehs[currentIndex];
@@ -41,59 +73,76 @@ export default function Tasbeeh() {
     const handleCount = () => {
         if (!currentTasbeeh) return;
         const newCount = currentTasbeeh.count + 1;
-        updateLocalTasbeeh(currentTasbeeh.id, newCount);
-        // Debounce server update normally, but for now direct is ok or use a specialized hook
-        updateTasbeehCount(currentTasbeeh.id, newCount, new Date().toISOString().split('T')[0]);
+        const updated = tasbeehs.map(t => t.id === currentTasbeeh.id ? { ...t, count: newCount } : t);
+        setTasbeehs(updated);
+        if (isGuest) {
+            saveGuestTasbeehs(updated);
+        } else {
+            updateTasbeehCount(currentTasbeeh.id, newCount, new Date().toISOString().split('T')[0]);
+        }
     };
 
     const handleReset = () => {
-        if (!currentTasbeeh || !confirm('Reset count?')) return;
-        updateLocalTasbeeh(currentTasbeeh.id, 0);
-        updateTasbeehCount(currentTasbeeh.id, 0, new Date().toISOString().split('T')[0]);
-    };
-
-    const updateLocalTasbeeh = (id: string, count: number) => {
-        setTasbeehs(prev => prev.map(t => t.id === id ? { ...t, count } : t));
+        if (!currentTasbeeh || !confirm('কাউন্ট রিসেট করবেন?')) return;
+        const updated = tasbeehs.map(t => t.id === currentTasbeeh.id ? { ...t, count: 0 } : t);
+        setTasbeehs(updated);
+        if (isGuest) {
+            saveGuestTasbeehs(updated);
+        } else {
+            updateTasbeehCount(currentTasbeeh.id, 0, new Date().toISOString().split('T')[0]);
+        }
     };
 
     const handleAdd = async () => {
         if (!newName) return;
-        await addTasbeeh(newName, newTarget);
-        setIsAdding(false);
+        if (isGuest) {
+            const newItem: TasbeehItem = { id: `g${Date.now()}`, name: newName, target: newTarget, count: 0 };
+            const updated = [...tasbeehs, newItem];
+            setTasbeehs(updated);
+            saveGuestTasbeehs(updated);
+            setCurrentIndex(updated.length - 1);
+        } else {
+            await addTasbeeh(newName, newTarget);
+            await loadTasbeehs();
+        }
         setNewName('');
-        loadTasbeehs();
+        setNewTarget(1000);
+        setIsAdding(false);
     };
 
     const handleDelete = async () => {
-        if (!currentTasbeeh || !confirm('Delete this Tasbeeh?')) return;
-        await deleteTasbeeh(currentTasbeeh.id);
-        setCurrentIndex(0);
-        loadTasbeehs();
+        if (!currentTasbeeh || !confirm(`"${currentTasbeeh.name}" মুছে ফেলবেন?`)) return;
+        if (isGuest) {
+            const updated = tasbeehs.filter(t => t.id !== currentTasbeeh.id);
+            setTasbeehs(updated);
+            saveGuestTasbeehs(updated);
+            setCurrentIndex(0);
+        } else {
+            await deleteTasbeeh(currentTasbeeh.id);
+            await loadTasbeehs();
+            setCurrentIndex(0);
+        }
     };
 
     const handleUpdate = async () => {
         if (!currentTasbeeh) return;
-        await updateTasbeehDetails(currentTasbeeh.id, editName, editTarget);
+        if (isGuest) {
+            const updated = tasbeehs.map(t => t.id === currentTasbeeh.id ? { ...t, name: editName, target: editTarget } : t);
+            setTasbeehs(updated);
+            saveGuestTasbeehs(updated);
+        } else {
+            await updateTasbeehDetails(currentTasbeeh.id, editName, editTarget);
+            await loadTasbeehs();
+        }
         setIsEditing(false);
-        loadTasbeehs();
     };
 
     if (loading) {
         return (
-            <div className="glass rounded-3xl p-6 relative overflow-hidden h-[300px] flex flex-col justify-between animate-pulse">
-                <div className="flex justify-between items-center">
-                    <div className="w-8 h-8 bg-white/10 rounded-full" />
-                    <div className="space-y-2 flex flex-col items-center">
-                        <div className="w-32 h-6 bg-white/10 rounded" />
-                        <div className="w-16 h-4 bg-white/5 rounded" />
-                    </div>
-                    <div className="w-8 h-8 bg-white/10 rounded-full" />
-                </div>
-                <div className="self-center w-32 h-32 rounded-full border-4 border-white/5 bg-white/5" />
-                <div className="flex justify-center gap-4">
-                    <div className="w-8 h-8 bg-white/10 rounded" />
-                    <div className="w-8 h-8 bg-white/10 rounded" />
-                    <div className="w-8 h-8 bg-white/10 rounded" />
+            <div className="glass rounded-3xl p-6 min-h-[300px] flex items-center justify-center animate-pulse">
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-32 h-32 bg-white/10 rounded-full" />
+                    <div className="w-24 h-4 bg-white/10 rounded" />
                 </div>
             </div>
         );
@@ -108,8 +157,8 @@ export default function Tasbeeh() {
                         <Plus size={32} className="text-emerald-400" />
                     </div>
                     <div>
-                        <h3 className="text-xl font-serif text-white mb-2">Start Your Dhikr</h3>
-                        <p className="text-gray-400 text-sm">Create your first Tasbeeh or load the recommended set for Ramadan.</p>
+                        <h3 className="text-xl font-serif text-white mb-2">যিকির শুরু করুন</h3>
+                        <p className="text-gray-400 text-sm">আপনার প্রথম তাসবীহ তৈরি করুন অথবা ডিফল্ট তাসবীহ লোড করুন।</p>
                     </div>
 
                     <div className="flex flex-col gap-3 w-full">
@@ -117,23 +166,28 @@ export default function Tasbeeh() {
                             onClick={() => setIsAdding(true)}
                             className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl hover:shadow-lg hover:shadow-emerald-500/20 transition-all font-medium flex items-center justify-center gap-2"
                         >
-                            <Plus size={18} /> Create Custom
+                            <Plus size={18} /> নতুন যিকির
                         </button>
                         <button
                             onClick={async () => {
-                                if (!confirm("Reset to default tasbeehs? This will delete your current list.")) return;
-                                setLoading(true);
-                                await resetTasbeehs();
-                                await loadTasbeehs();
+                                if (!confirm("ডিফল্ট তাসবীহ লোড করবেন?")) return;
+                                if (isGuest) {
+                                    setTasbeehs(DEFAULT_GUEST_TASBEEHS);
+                                    saveGuestTasbeehs(DEFAULT_GUEST_TASBEEHS);
+                                } else {
+                                    setLoading(true);
+                                    await resetTasbeehs();
+                                    await loadTasbeehs();
+                                }
                             }}
                             className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-emerald-300 rounded-xl transition-all font-medium text-sm"
                         >
-                            Load Defaults
+                            ডিফল্ট লোড করুন
                         </button>
                     </div>
                 </div>
 
-                {/* Add New Overlay - Reused Logic */}
+                {/* Add New Overlay */}
                 <AnimatePresence>
                     {isAdding && (
                         <motion.div
@@ -143,12 +197,12 @@ export default function Tasbeeh() {
                             className="absolute inset-0 bg-black/80 z-30 flex flex-col items-center justify-center p-6"
                         >
                             <div className="w-full max-w-sm space-y-4">
-                                <h4 className="text-xl font-serif text-gold-400 text-center">New Tasbeeh</h4>
+                                <h4 className="text-xl font-serif text-gold-400 text-center">নতুন তাসবীহ</h4>
                                 <div className="space-y-3">
                                     <div className="space-y-1">
-                                        <label className="text-xs text-gray-400 ml-1">Zikr Name</label>
+                                        <label className="text-xs text-gray-400 ml-1">যিকিরের নাম</label>
                                         <input
-                                            placeholder="e.g. SubhanAllah"
+                                            placeholder="যেমন: সুবহানাল্লাহ"
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
                                             className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
@@ -156,7 +210,7 @@ export default function Tasbeeh() {
                                         />
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-xs text-gray-400 ml-1">Target Count</label>
+                                        <label className="text-xs text-gray-400 ml-1">লক্ষ্য সংখ্যা</label>
                                         <div className="grid grid-cols-4 gap-2">
                                             {[33, 100, 313, 1000].map(val => (
                                                 <button
@@ -177,8 +231,8 @@ export default function Tasbeeh() {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3 pt-2">
-                                    <button onClick={() => setIsAdding(false)} className="py-3 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-colors">Cancel</button>
-                                    <button onClick={handleAdd} className="py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg shadow-emerald-500/20 transition-all">Create</button>
+                                    <button onClick={() => setIsAdding(false)} className="py-3 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-colors">বাতিল</button>
+                                    <button onClick={handleAdd} className="py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg shadow-emerald-500/20 transition-all">তৈরি</button>
                                 </div>
                             </div>
                         </motion.div>
@@ -187,6 +241,9 @@ export default function Tasbeeh() {
             </div>
         );
     }
+
+    const badge = currentTasbeeh ? getBadge(currentTasbeeh.count) : getBadge(0);
+    const progressPercent = currentTasbeeh ? Math.min(currentTasbeeh.count / currentTasbeeh.target, 1) * 100 : 0;
 
     return (
         <div className="glass rounded-3xl p-6 relative overflow-hidden group min-h-[300px] flex flex-col justify-between transition-all duration-300 hover:border-emerald-500/30">
@@ -224,13 +281,16 @@ export default function Tasbeeh() {
                                     onChange={e => setEditTarget(Number(e.target.value))}
                                     className="bg-black/40 border border-emerald-500/30 rounded-lg px-2 py-1 text-center text-xs w-20 focus:outline-none"
                                 />
-                                <button onClick={handleUpdate} className="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-500">Save</button>
+                                <button onClick={handleUpdate} className="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-emerald-500">সেভ</button>
                             </div>
                         </div>
                     ) : (
                         <div className="animate-in fade-in slide-in-from-top-2 duration-300">
                             <h3 className="text-gold-400 font-serif text-xl font-medium tracking-wide truncate max-w-[200px] mx-auto">{currentTasbeeh?.name}</h3>
-                            <p className="text-xs text-emerald-400/80 font-medium tracking-wider uppercase mt-1">Target: {currentTasbeeh?.target}</p>
+                            <div className="flex items-center justify-center gap-2 mt-1">
+                                <span className="text-xs text-emerald-400/80 font-medium">লক্ষ্য: {currentTasbeeh?.target}</span>
+                                <span className={`text-xs font-bold ${badge.color}`}>{badge.icon} {badge.name}</span>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -247,7 +307,7 @@ export default function Tasbeeh() {
             {!isAdding && currentTasbeeh && (
                 <div className="flex flex-col items-center justify-center relative z-10 flex-1 py-2">
                     <motion.button
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.92 }}
                         onClick={handleCount}
                         className="w-40 h-40 rounded-full border-[6px] border-white/5 flex items-center justify-center bg-gradient-to-b from-emerald-900/40 to-black/60 shadow-[0_0_40px_rgba(16,185,129,0.1)] hover:shadow-[0_0_60px_rgba(16,185,129,0.2)] transition-all relative group-hover:border-emerald-500/20"
                     >
@@ -255,20 +315,12 @@ export default function Tasbeeh() {
                             <span className="text-5xl font-mono font-bold text-white tracking-tighter drop-shadow-lg">
                                 {currentTasbeeh.count}
                             </span>
-                            <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Count</span>
+                            <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">{Math.round(progressPercent)}%</span>
                         </div>
 
                         {/* Progress Ring */}
                         <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none overflow-visible">
-                            {/* Background Circle */}
-                            <circle
-                                cx="50%" cy="50%" r="76"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                fill="none"
-                                className="text-white/5"
-                            />
-                            {/* Active Circle */}
+                            <circle cx="50%" cy="50%" r="76" stroke="currentColor" strokeWidth="2" fill="none" className="text-white/5" />
                             <circle
                                 cx="50%" cy="50%" r="76"
                                 stroke="currentColor"
@@ -276,11 +328,22 @@ export default function Tasbeeh() {
                                 strokeLinecap="round"
                                 fill="none"
                                 className="text-emerald-500 transition-all duration-300 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"
-                                strokeDasharray={477} // 2 * pi * 76
+                                strokeDasharray={477}
                                 strokeDashoffset={477 - (Math.min(currentTasbeeh.count / currentTasbeeh.target, 1) * 477)}
                             />
                         </svg>
                     </motion.button>
+
+                    {/* Milestone notification */}
+                    {currentTasbeeh.count > 0 && currentTasbeeh.count % 100 === 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mt-2 px-3 py-1 bg-gold-500/20 border border-gold-500/30 rounded-full text-xs text-gold-400 font-bold"
+                        >
+                            🎉 {currentTasbeeh.count} বার সম্পন্ন!
+                        </motion.div>
+                    )}
                 </div>
             )}
 
@@ -290,7 +353,7 @@ export default function Tasbeeh() {
                     <button
                         onClick={handleReset}
                         className="p-2.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
-                        title="Reset Count"
+                        title="রিসেট"
                     >
                         <RotateCcw size={18} />
                     </button>
@@ -298,7 +361,7 @@ export default function Tasbeeh() {
                     <button
                         onClick={() => setIsAdding(true)}
                         className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-600/20 hover:scale-105 hover:bg-emerald-500 transition-all active:scale-95"
-                        title="Add New"
+                        title="নতুন যিকির"
                     >
                         <Plus size={24} />
                     </button>
@@ -310,7 +373,7 @@ export default function Tasbeeh() {
                             setIsEditing(!isEditing);
                         }}
                         className={`p-2.5 rounded-xl transition-all ${isEditing ? 'text-emerald-400 bg-emerald-400/10' : 'text-gray-500 hover:text-emerald-400 hover:bg-emerald-400/10'}`}
-                        title="Edit Details"
+                        title="সম্পাদনা"
                     >
                         <Edit2 size={18} />
                     </button>
@@ -318,14 +381,14 @@ export default function Tasbeeh() {
                     <button
                         onClick={handleDelete}
                         className="p-2.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
-                        title="Delete Tasbeeh"
+                        title="মুছুন"
                     >
                         <Trash2 size={18} />
                     </button>
                 </div>
             )}
 
-            {/* Add New Overlay (Same as empty state but absolute) */}
+            {/* Add New Overlay */}
             <AnimatePresence>
                 {isAdding && (
                     <motion.div
@@ -335,12 +398,12 @@ export default function Tasbeeh() {
                         className="absolute inset-0 bg-black/80 z-30 flex flex-col items-center justify-center p-6"
                     >
                         <div className="w-full max-w-sm space-y-4">
-                            <h4 className="text-xl font-serif text-gold-400 text-center">New Tasbeeh</h4>
+                            <h4 className="text-xl font-serif text-gold-400 text-center">নতুন তাসবীহ</h4>
                             <div className="space-y-3">
                                 <div className="space-y-1">
-                                    <label className="text-xs text-gray-400 ml-1">Zikr Name</label>
+                                    <label className="text-xs text-gray-400 ml-1">যিকিরের নাম</label>
                                     <input
-                                        placeholder="e.g. SubhanAllah"
+                                        placeholder="যেমন: সুবহানাল্লাহ"
                                         value={newName}
                                         onChange={e => setNewName(e.target.value)}
                                         className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
@@ -348,7 +411,7 @@ export default function Tasbeeh() {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs text-gray-400 ml-1">Target Count</label>
+                                    <label className="text-xs text-gray-400 ml-1">লক্ষ্য সংখ্যা</label>
                                     <div className="grid grid-cols-4 gap-2">
                                         {[33, 100, 313, 1000].map(val => (
                                             <button
@@ -369,8 +432,8 @@ export default function Tasbeeh() {
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-3 pt-2">
-                                <button onClick={() => setIsAdding(false)} className="py-3 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-colors">Cancel</button>
-                                <button onClick={handleAdd} className="py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg shadow-emerald-500/20 transition-all">Create</button>
+                                <button onClick={() => setIsAdding(false)} className="py-3 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-colors">বাতিল</button>
+                                <button onClick={handleAdd} className="py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg shadow-emerald-500/20 transition-all">তৈরি</button>
                             </div>
                         </div>
                     </motion.div>

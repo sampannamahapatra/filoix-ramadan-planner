@@ -6,17 +6,16 @@ import { BookOpen } from 'lucide-react';
 
 const DUAS = [
     {
-        title: "Sehri Dua",
+        title: "সেহরির দোয়া",
         arabic: "وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ",
-        // English + Bangla Transliteration
-        transliteration: "Nawaitu an asuma gadam, min shahri ramadanal mubarak; fardallaka ya Allahu, fatakabbal minni innika antas samiul alim. \n (নাওয়াইতু আন আছুমা গাদাম, মিন শাহরি রমাদানাল মুবারাক; ফারদাল্লাকা ইয়া আল্লাহু, ফাতাকাব্বাল মিন্নি ইন্নিকা আনতাস সামিউল আলিম।)",
+        transliteration: "নাওয়াইতু আন আছুমা গাদাম, মিন শাহরি রমাদানাল মুবারাক; ফারদাল্লাকা ইয়া আল্লাহু, ফাতাকাব্বাল মিন্নি ইন্নিকা আনতাস সামিউল আলিম।",
         meaning: "হে আল্লাহ! আমি আগামীকাল পবিত্র রমজানের রোজা রাখার নিয়ত করছি, যা আপনার সন্তুষ্টির জন্য ফরজ করা হয়েছে। অতএব, আমার পক্ষ থেকে তা কবুল করুন। নিশ্চয়ই আপনি সর্বশ্রোতা ও সর্বজ্ঞ।"
     },
     {
-        title: "Iftar Dua",
-        arabic: "اللَّهُمَّ اِنِّى لَكَ صُمْتُ وَبِكَ amanْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ اَفْطَرْتُ",
-        transliteration: "Allahumma laka sumtu wa ala rizqika wa aftartu birahmatika ya arhamar rahimin. \n (আল্লাহুম্মা লাকা ছুমতু ওয়া আলা রিযক্বিকা ওয়া আফতারতু বিরাহমাতিকা ইয়া আরহামার রাহিমিন।)",
-        meaning: "হে আল্লাহ! আমি আপনার উদ্দেশে রোজা রেখেছি এবং আপনার দেওয়া রিজিক দিয়ে ইফতার করছি । আপনি আমার রোজা কবুল করুন।"
+        title: "ইফতারের দোয়া",
+        arabic: "اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ",
+        transliteration: "আল্লাহুম্মা ইন্নি লাকা ছুমতু ওয়া বিকা আমানতু ওয়া আলাইকা তাওয়াক্কালতু ওয়া আলা রিযক্বিকা আফতারতু।",
+        meaning: "হে আল্লাহ! আমি আপনার জন্যই রোজা রেখেছি, আপনার প্রতি ঈমান এনেছি, আপনার উপর ভরসা করেছি এবং আপনার রিযিক দিয়ে ইফতার করেছি।"
     }
 ];
 
@@ -56,8 +55,8 @@ export default function DuaCard() {
                     <h3 className="text-2xl md:text-4xl font-arabic text-gold-400 mb-4 leading-relaxed dir-rtl">
                         {DUAS[activeTab].arabic}
                     </h3>
-                    <p className="text-emerald-200/80 italic mb-2 text-sm md:text-base whitespace-pre-line">
-                        "{DUAS[activeTab].transliteration}"
+                    <p className="text-emerald-200/80 mb-2 text-sm md:text-base whitespace-pre-line">
+                        {DUAS[activeTab].transliteration}
                     </p>
                     <p className="text-gray-300 text-sm md:text-lg font-serif">
                         {DUAS[activeTab].meaning}

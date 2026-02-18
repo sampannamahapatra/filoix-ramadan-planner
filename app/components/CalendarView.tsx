@@ -13,7 +13,7 @@ export default function CalendarView({ fullSchedule }: Props) {
     return (
         <div className="w-full max-w-4xl mx-auto mt-10">
             <div className="flex items-center justify-between mb-6 px-4">
-                <h2 className="text-2xl font-bold text-white">Full Schedule</h2>
+                <h2 className="text-2xl font-bold text-white">সম্পূর্ণ সময়সূচী</h2>
                 <DownloadButton targetId="ramadan-calendar-table" />
             </div>
             <div id="ramadan-calendar-table" className="glass rounded-3xl overflow-hidden bg-[#0f172a]">
@@ -21,11 +21,11 @@ export default function CalendarView({ fullSchedule }: Props) {
                     <table className="w-full text-left">
                         <thead className="bg-white/5 text-emerald-400">
                             <tr>
-                                <th className="p-4 font-semibold">Ramadan</th>
-                                <th className="p-4 font-semibold">Date</th>
-                                <th className="p-4 font-semibold">Sehri End</th>
-                                <th className="p-4 font-semibold">Fajr</th>
-                                <th className="p-4 font-semibold">Iftar</th>
+                                <th className="p-4 font-semibold">রমজান</th>
+                                <th className="p-4 font-semibold">তারিখ</th>
+                                <th className="p-4 font-semibold">সেহরি</th>
+                                <th className="p-4 font-semibold">ফজর</th>
+                                <th className="p-4 font-semibold">ইফতার</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">

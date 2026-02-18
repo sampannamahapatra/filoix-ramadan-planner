@@ -13,8 +13,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Filoix Ramadan Calender",
-  description: "A premium Ramadan Calendar & Planner for Bangladesh",
+  title: "ফিলোইক্স রমজান ক্যালেন্ডার",
+  description: "বাংলাদেশের জন্য প্রিমিয়াম রমজান ক্যালেন্ডার ও আমল পরিকল্পনাকারী",
 };
 
 import Navbar from "./components/Navbar";
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="bn">
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-custom-bg text-white`}
       >

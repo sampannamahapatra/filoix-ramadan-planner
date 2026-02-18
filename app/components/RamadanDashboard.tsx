@@ -11,6 +11,7 @@ import DuaCard from './DuaCard';
 import Tasbeeh from './Tasbeeh';
 import NamesCarousel from './NamesCarousel';
 import PromoBanner from './PromoBanner';
+import Report from './Report';
 import { motion, AnimatePresence } from 'framer-motion';
 import { translations } from '../lib/translations';
 
@@ -24,7 +25,14 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
     const [selectedDistrict, setSelectedDistrict] = useState<District | null>(null);
     const [schedule, setSchedule] = useState<DaySchedule[]>([]);
     const [loading, setLoading] = useState(true);
-    const [view, setView] = useState<'today' | 'calendar' | 'planner'>('today');
+    const [view, setView] = useState<'today' | 'calendar' | 'planner' | 'report'>('today');
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         async function init() {
@@ -73,115 +81,128 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
     const todayDate = new Date().getDate();
     const todaySchedule = schedule.find(s => parseInt(s.date) === todayDate) || schedule[0];
 
+    const tabs = [
+        { key: 'today' as const, label: t.tabToday },
+        { key: 'calendar' as const, label: t.tabCalendar },
+        { key: 'planner' as const, label: t.tabPlanner },
+        { key: 'report' as const, label: 'রিপোর্ট' },
+    ];
+
     return (
-        <main className="min-h-screen pb-20 pt-8 relative overflow-hidden">
+        <main className="min-h-screen pb-20 relative overflow-hidden">
             <div className="pattern-overlay opacity-30" />
 
-            {/* Header Section */}
-            <header className="mb-8 text-center relative z-10 px-4">
-                <h1 className="text-4xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-white to-emerald-200 mb-2 drop-shadow-sm">
-                    Filoix Ramadan Calender
-                </h1>
-                <p className="text-emerald-400 font-medium tracking-widest text-sm uppercase">{selectedDistrict?.name} {t.subtitle}</p>
+            {/* Fixed Header */}
+            <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#022c22]/90 backdrop-blur-xl shadow-2xl shadow-black/30 border-b border-white/5' : 'bg-transparent'}`}>
+                <div className="max-w-6xl mx-auto px-4 md:px-8">
+                    <div className="flex items-center justify-between h-16">
+                        {/* Logo + Title */}
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                <span className="text-lg">🌙</span>
+                            </div>
+                            <div className="hidden md:block">
+                                <h1 className="text-lg font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-white leading-tight">
+                                    ফিলোইক্স রমজান ক্যালেন্ডার
+                                </h1>
+                                <p className="text-[10px] text-emerald-400/80 tracking-widest uppercase">{selectedDistrict?.name} • {t.subtitle}</p>
+                            </div>
+                        </div>
+
+                        {/* Nav Tabs */}
+                        <nav className="flex items-center gap-1">
+                            {tabs.map(tab => (
+                                <button
+                                    key={tab.key}
+                                    onClick={() => setView(tab.key)}
+                                    className={`px-3 md:px-5 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-300 ${view === tab.key
+                                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                        }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </nav>
+                    </div>
+                </div>
             </header>
 
-            {/* Searchable District Dropdown */}
-            <div className="mb-10 px-4">
-                {data && (
-                    <DistrictSelector
-                        districts={data.districts}
-                        selectedDistrict={selectedDistrict}
-                        onSelect={(d) => {
-                            setSelectedDistrict(d);
-                            if (!initialDistrict) localStorage.setItem('selectedDistrictId', d.id);
-                        }}
-                    />
+            {/* Content starts below fixed header */}
+            <div className="pt-24">
+                {/* District Selector (only on Today view) */}
+                {view === 'today' && (
+                    <div className="mb-10 px-4">
+                        {data && (
+                            <DistrictSelector
+                                districts={data.districts}
+                                selectedDistrict={selectedDistrict}
+                                onSelect={(d) => {
+                                    setSelectedDistrict(d);
+                                    if (!initialDistrict) localStorage.setItem('selectedDistrictId', d.id);
+                                }}
+                            />
+                        )}
+                    </div>
                 )}
-            </div>
 
-            {/* 99 Names Carousel */}
-            <div className="mb-12">
-                <NamesCarousel />
-            </div>
+                {/* 99 Names Carousel (only on Today view) */}
+                {view === 'today' && (
+                    <div className="mb-12">
+                        <NamesCarousel />
+                    </div>
+                )}
 
-            {/* Navigation Tabs - Sticky */}
-            <div className="sticky top-4 z-40 flex justify-center mb-10 px-4 pointer-events-none">
-                <div className="glass p-1 rounded-2xl flex gap-1 pointer-events-auto shadow-2xl shadow-black/50 backdrop-blur-xl bg-black/40 border border-white/10">
-                    <button
-                        onClick={() => setView('today')}
-                        className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${view === 'today'
-                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-                            : 'text-gray-400 hover:text-white hover:bg-white/5'
-                            }`}
-                    >
-                        {t.tabToday}
-                    </button>
-                    <button
-                        onClick={() => setView('calendar')}
-                        className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${view === 'calendar'
-                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-                            : 'text-gray-400 hover:text-white hover:bg-white/5'
-                            }`}
-                    >
-                        {t.tabCalendar}
-                    </button>
-                    <button
-                        onClick={() => setView('planner')}
-                        className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${view === 'planner'
-                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-                            : 'text-gray-400 hover:text-white hover:bg-white/5'
-                            }`}
-                    >
-                        {t.tabPlanner}
-                    </button>
-                </div>
-            </div>
-
-            {/* Content Area */}
-            <div className="max-w-6xl mx-auto px-4 md:px-8">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={view}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        {view === 'today' && todaySchedule && (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <TodayCard
-                                    schedule={todaySchedule}
-                                    nextSchedule={schedule.find(s => parseInt(s.date) === todayDate + 1) || schedule[0]}
-                                />
-                                <div className="col-span-1 space-y-6">
-                                    <Tasbeeh />
+                {/* Content Area */}
+                <div className="max-w-6xl mx-auto px-4 md:px-8">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={view}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {view === 'today' && todaySchedule && (
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <TodayCard
+                                        schedule={todaySchedule}
+                                        nextSchedule={schedule.find(s => parseInt(s.date) === todayDate + 1) || schedule[0]}
+                                    />
+                                    <div className="col-span-1 space-y-6">
+                                        <Tasbeeh />
+                                    </div>
+                                    <DuaCard />
                                 </div>
-                                <DuaCard />
-                            </div>
-                        )}
+                            )}
 
-                        {view === 'calendar' && (
-                            <CalendarView fullSchedule={schedule} />
-                        )}
+                            {view === 'calendar' && (
+                                <CalendarView fullSchedule={schedule} />
+                            )}
 
-                        {view === 'planner' && (
-                            <Planner />
-                        )}
-                    </motion.div>
-                </AnimatePresence>
-            </div>
+                            {view === 'planner' && (
+                                <Planner />
+                            )}
 
-            <footer className="mt-24 text-center text-gray-500 text-sm pb-8 relative z-10 flex flex-col items-center gap-2">
-                <PromoBanner />
-                <p className="opacity-60 mt-4">{t.dataSource}</p>
-                <div className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
-                    <span className="text-gray-500 text-xs uppercase tracking-widest">Powered by</span>
-                    <span className="text-xl font-bold font-serif text-white flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        Filoix
-                    </span>
+                            {view === 'report' && (
+                                <Report />
+                            )}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
-            </footer>
+
+                <footer className="mt-24 text-center text-gray-500 text-sm pb-8 relative z-10 flex flex-col items-center gap-2">
+                    <PromoBanner />
+                    <p className="opacity-60 mt-4">{t.dataSource}</p>
+                    <div className="mt-4 flex items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+                        <span className="text-gray-500 text-xs uppercase tracking-widest">তৈরি করেছে</span>
+                        <span className="text-xl font-bold font-serif text-white flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Filoix
+                        </span>
+                    </div>
+                </footer>
+            </div>
         </main>
     );
 }

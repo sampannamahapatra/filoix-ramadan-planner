@@ -76,12 +76,12 @@ async function ensureDefaultData(userId: string, plan: string = "INDEPENDENT") {
     if (tasbeehCount === 0) {
         await prisma.tasbeeh.createMany({
             data: [
-                { userId, name: "SubhanAllah", target: 33 },
-                { userId, name: "Alhamdulillah", target: 33 },
-                { userId, name: "Allahu Akbar", target: 34 },
-                { userId, name: "Astaghfirullah", target: 100 },
-                { userId, name: "La ilaha illallah", target: 100 },
-                { userId, name: "Salawat (Durood)", target: 100 },
+                { userId, name: "সুবহানাল্লাহ", target: 1000 },
+                { userId, name: "আলহামদুলিল্লাহ", target: 1000 },
+                { userId, name: "আল্লাহু আকবার", target: 1000 },
+                { userId, name: "আস্তাগফিরুল্লাহ", target: 100 },
+                { userId, name: "লা ইলাহা ইল্লাল্লাহ", target: 100 },
+                { userId, name: "দরূদ শরীফ", target: 100 },
             ]
         });
     }
