@@ -12,7 +12,14 @@ export default async function ProfilePage() {
 
     const user = await prisma.user.findUnique({
         where: { id: session.user.id },
-        include: { tasbeehLogs: true, plannerLogs: true },
+        include: {
+            tasbeehs: {
+                include: {
+                    logs: true
+                }
+            },
+            plannerLogs: true
+        },
     });
 
     if (!user) redirect('/login');
@@ -21,7 +28,9 @@ export default async function ProfilePage() {
     const selectedDistrict = ramadanData.districts.find(d => d.id === user.districtId) || null;
 
     // Calculate Stats
-    const totalTasbeeh = user.tasbeehLogs.reduce((acc, log) => acc + log.count, 0);
+    const totalTasbeeh = user.tasbeehs.reduce((acc, tasbeeh) => {
+        return acc + tasbeeh.logs.reduce((lAcc, log) => lAcc + log.count, 0);
+    }, 0);
     const totalTasks = user.plannerLogs.filter(l => l.completed).length;
 
     return (

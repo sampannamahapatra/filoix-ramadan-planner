@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
         orderBy: { createdAt: 'desc' },
         include: {
             _count: {
-                select: { tasbeehLogs: true, plannerLogs: true }
+                select: { tasbeehs: true, plannerLogs: true }
             }
         }
     });
