@@ -8,7 +8,7 @@ echo "Deploying to $HOST..."
 ssh $HOST "mkdir -p $DIR"
 
 # Clone/Pull repo
-ssh $HOST "if [ -d $DIR/.git ]; then cd $DIR && git pull; else git clone https://github.com/sampannamahapatra/filoix-ramadan-planner.git $DIR; fi"
+ssh $HOST "if [ -d $DIR/.git ]; then cd $DIR && git reset --hard && git pull; else git clone https://github.com/sampannamahapatra/filoix-ramadan-planner.git $DIR; fi"
 
 # Upload configs
 scp .env.production $HOST:$DIR/.env

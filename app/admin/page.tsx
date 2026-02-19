@@ -16,6 +16,7 @@ export default async function AdminDashboard() {
     const session = await auth();
 
     if (!session || session.user?.role !== 'ADMIN') {
+        console.log('Admin Access Denied:', { session, role: session?.user?.role });
         if (!session) redirect('/login');
         // If logged in but not admin, simple redirect or show unauthorized
         // For now, redirect to home
