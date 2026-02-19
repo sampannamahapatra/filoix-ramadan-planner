@@ -154,8 +154,8 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
 
             {/* Content starts below fixed header */}
             <div className="pt-28 md:pt-24">
-                {/* District Selector (only on Today view) */}
-                {view === 'today' && (
+                {/* District Selector (Today & Calendar views) */}
+                {(view === 'today' || view === 'calendar') && (
                     <div className="mb-10 px-4">
                         <AppDownloadBanner />
                         {data && (
