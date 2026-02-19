@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import { LogOut, MapPin, User as UserIcon } from 'lucide-react';
 import { getRamadanData } from '../lib/data';
+import ProfileForm from '../components/ProfileForm';
 
 const prisma = new PrismaClient();
 
@@ -62,6 +63,8 @@ export default async function ProfilePage() {
                         </button>
                     </form>
                 </div>
+
+                <ProfileForm user={user} />
 
                 {/* Default Location Settings */}
                 <div className="glass rounded-3xl p-8">
