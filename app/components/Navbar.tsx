@@ -19,9 +19,9 @@ export default async function Navbar() {
                                 অ্যাডমিন
                             </Link>
                         )}
-                        <Link href="/profile" className="px-5 py-2 glass rounded-full text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-all border border-emerald-500/30 ring-1 ring-emerald-500/50">
+                        <a href="/profile" className="px-5 py-2 glass rounded-full text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-all border border-emerald-500/30 ring-1 ring-emerald-500/50">
                             প্রোফাইল
-                        </Link>
+                        </a>
                     </>
                 ) : (
                     <>
