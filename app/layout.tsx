@@ -15,6 +15,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "ফিলোইক্স রমজান ক্যালেন্ডার",
   description: "বাংলাদেশের জন্য প্রিমিয়াম রমজান ক্যালেন্ডার ও আমল পরিকল্পনাকারী",
+  verification: {
+    google: "meRE2oGGuq2n5v72pJUb5ukJTJLRfLr1YAT4E-F0cMU",
+  },
 };
 
 import Navbar from "./components/Navbar";
