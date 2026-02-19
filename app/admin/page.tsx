@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import { Download } from 'lucide-react';
@@ -16,7 +16,9 @@ export default async function AdminDashboard() {
     const session = await auth();
 
     if (!session || session.user?.role !== 'ADMIN') {
-        if (!session) redirect('/login');
+        if (!session) {
+            await signOut({ redirectTo: '/login' });
+        }
         // If logged in but not admin, simple redirect or show unauthorized
         // For now, redirect to home
         redirect('/');

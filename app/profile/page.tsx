@@ -22,7 +22,10 @@ export default async function ProfilePage() {
         },
     });
 
-    if (!user) redirect('/login');
+    if (!user) {
+        await signOut({ redirectTo: '/login' });
+        return null; // Stop execution
+    }
 
     const ramadanData = await getRamadanData();
     const selectedDistrict = ramadanData.districts.find(d => d.id === user.districtId) || null;
