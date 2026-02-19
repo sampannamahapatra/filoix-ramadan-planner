@@ -1,4 +1,5 @@
 import { auth, signOut } from '@/auth';
+import SessionReset from '../components/SessionReset';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import { LogOut, MapPin, User as UserIcon } from 'lucide-react';
@@ -23,8 +24,7 @@ export default async function ProfilePage() {
     });
 
     if (!user) {
-        await signOut({ redirectTo: '/login' });
-        return null; // Stop execution
+        return <SessionReset />;
     }
 
     const ramadanData = await getRamadanData();

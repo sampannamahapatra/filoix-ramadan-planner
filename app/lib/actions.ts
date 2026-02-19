@@ -4,7 +4,7 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
-import { auth, signIn } from '@/auth';
+import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 
 const prisma = new PrismaClient();
@@ -72,6 +72,17 @@ export async function syncDistrict(districtId: string) {
 // --- SEEDING HELPER ---
 async function ensureDefaultData(userId: string, plan: string = "INDEPENDENT") {
     // Seed Default Tasbeehs (Common for all)
+    // Verify user exists first to avoid P2003 Foreign Key Constraint Violation
+    const userExists = await prisma.user.findUnique({ where: { id: userId } });
+    if (!userExists) {
+        // If user doesn't exist, we can't create data.
+        // The calling function should handle the missing user (likely via the profile page redirect fix)
+        // But we return here to prevent the crash.
+        return;
+    }
+
+
+
     const tasbeehCount = await prisma.tasbeeh.count({ where: { userId } });
     if (tasbeehCount === 0) {
         await prisma.tasbeeh.createMany({
@@ -426,4 +437,8 @@ export async function resetPlanner() {
         console.error("Error resetting planner:", error);
         return { error: "Failed to reset planner" };
     }
+}
+
+export async function handleInvalidSession() {
+    await signOut({ redirectTo: '/login' });
 }

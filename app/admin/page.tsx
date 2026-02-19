@@ -11,13 +11,22 @@ import DistrictChart from '../components/admin/DistrictChart';
 import TasbeehChart from '../components/admin/TasbeehChart';
 
 const prisma = new PrismaClient();
+import SessionReset from '../components/SessionReset';
 
 export default async function AdminDashboard() {
     const session = await auth();
 
     if (!session || session.user?.role !== 'ADMIN') {
         if (!session) {
-            await signOut({ redirectTo: '/login' });
+            // Already handled by middleware mostly, but extra safety
+            redirect('/login');
+        } else {
+            // Valid session but not admin, or zombie session check
+            const userHelper = await prisma.user.findUnique({ where: { id: session.user.id } });
+            if (!userHelper) return <SessionReset />;
+
+            // If user exists but not admin
+            if (userHelper.role !== 'ADMIN') redirect('/');
         }
         // If logged in but not admin, simple redirect or show unauthorized
         // For now, redirect to home
