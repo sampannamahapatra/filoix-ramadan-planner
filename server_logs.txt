@@ -1,0 +1,405 @@
+[TAILING] Tailing last 200 lines for [ramadan-planner] process (change the value with --lines option)
+/root/.pm2/logs/ramadan-planner-error.log last 200 lines:
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | The width(-1) and height(-1) of chart should be greater than 0,
+20|ramadan |        please check the style of container, or the props width(100%) and height(100%),
+20|ramadan |        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+20|ramadan |        height and width.
+20|ramadan | The width(-1) and height(-1) of chart should be greater than 0,
+20|ramadan |        please check the style of container, or the props width(100%) and height(100%),
+20|ramadan |        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+20|ramadan |        height and width.
+20|ramadan | The width(-1) and height(-1) of chart should be greater than 0,
+20|ramadan |        please check the style of container, or the props width(100%) and height(100%),
+20|ramadan |        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+20|ramadan |        height and width.
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error fetching tasbeehs: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async p (.next/server/chunks/ssr/_94f52517._.js:2:3238) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | Error getting planner setup: Error [PrismaClientKnownRequestError]: 
+20|ramadan | Invalid `prisma.tasbeeh.createMany()` invocation:
+20|ramadan | 
+20|ramadan | 
+20|ramadan | Foreign key constraint violated: `foreign key`
+20|ramadan |     at async o (.next/server/chunks/ssr/_94f52517._.js:2:1396)
+20|ramadan |     at async w (.next/server/chunks/ssr/_94f52517._.js:2:5524) {
+20|ramadan |   code: 'P2003',
+20|ramadan |   clientVersion: '5.22.0',
+20|ramadan |   meta: [Object]
+20|ramadan | }
+20|ramadan | [31m[auth][error][0m CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+20|ramadan |     at fl (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:40971)
+20|ramadan |     at async fu (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:50396)
+20|ramadan |     at async fw (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:54646)
+20|ramadan |     at async fH (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:59931)
+20|ramadan |     at async m (/var/www/ramadan-planner/.next/server/chunks/ssr/_94f52517._.js:2:1013)
+20|ramadan |     at async rH (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:1960)
+20|ramadan |     at async /var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:642
+20|ramadan |     at async rU (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:14:14060)
+20|ramadan |     at async sT (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:21:21178)
+20|ramadan |     at async n (/var/www/ramadan-planner/.next/server/chunks/ssr/_e9029010._.js:1:7286)
+20|ramadan | [31m[auth][error][0m CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+20|ramadan |     at fl (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:40971)
+20|ramadan |     at async fu (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:50396)
+20|ramadan |     at async fw (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:54646)
+20|ramadan |     at async fH (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:59931)
+20|ramadan |     at async m (/var/www/ramadan-planner/.next/server/chunks/ssr/_94f52517._.js:2:1013)
+20|ramadan |     at async rH (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:1960)
+20|ramadan |     at async /var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:642
+20|ramadan |     at async rU (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:14:14060)
+20|ramadan |     at async sT (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:21:21178)
+20|ramadan |     at async n (/var/www/ramadan-planner/.next/server/chunks/ssr/_e9029010._.js:1:7286)
+20|ramadan | [31m[auth][error][0m CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+20|ramadan |     at fl (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:40971)
+20|ramadan |     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+20|ramadan |     at async fu (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:50396)
+20|ramadan |     at async fw (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:54646)
+20|ramadan |     at async fH (/var/www/ramadan-planner/.next/server/chunks/ssr/_f28d08c6._.js:415:59931)
+20|ramadan |     at async m (/var/www/ramadan-planner/.next/server/chunks/ssr/_94f52517._.js:2:1013)
+20|ramadan |     at async rH (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:1960)
+20|ramadan |     at async /var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:16:642
+20|ramadan |     at async rU (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:14:14060)
+20|ramadan |     at async sT (/var/www/ramadan-planner/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:21:21178)
+
+/root/.pm2/logs/ramadan-planner-out.log last 200 lines:
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516158,
+20|ramadan |   exp: 1774108158,
+20|ramadan |   jti: '224477f8-e19b-4176-a56b-864418093566'
+20|ramadan | }
+20|ramadan | JWT Callback - Token (After): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516158,
+20|ramadan |   exp: 1774108158,
+20|ramadan |   jti: '224477f8-e19b-4176-a56b-864418093566'
+20|ramadan | }
+20|ramadan | Session Callback - Token: {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516158,
+20|ramadan |   exp: 1774108158,
+20|ramadan |   jti: '224477f8-e19b-4176-a56b-864418093566'
+20|ramadan | }
+20|ramadan | Session Callback - Session: {
+20|ramadan |   user: {
+20|ramadan |     name: 'Musfiqur',
+20|ramadan |     email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |     image: undefined,
+20|ramadan |     id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |     role: 'USER'
+20|ramadan |   },
+20|ramadan |   expires: '2026-03-21T15:49:19.562Z'
+20|ramadan | }
+20|ramadan | JWT Callback - User: undefined
+20|ramadan | JWT Callback - Token (Before): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516159,
+20|ramadan |   exp: 1774108159,
+20|ramadan |   jti: '753c6c7f-4116-4aba-a075-101ed6c3ac01'
+20|ramadan | }
+20|ramadan | JWT Callback - Token (After): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516159,
+20|ramadan |   exp: 1774108159,
+20|ramadan |   jti: '753c6c7f-4116-4aba-a075-101ed6c3ac01'
+20|ramadan | }
+20|ramadan | Session Callback - Token: {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516159,
+20|ramadan |   exp: 1774108159,
+20|ramadan |   jti: '753c6c7f-4116-4aba-a075-101ed6c3ac01'
+20|ramadan | }
+20|ramadan | Session Callback - Session: {
+20|ramadan |   user: {
+20|ramadan |     name: 'Musfiqur',
+20|ramadan |     email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |     image: undefined,
+20|ramadan |     id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |     role: 'USER'
+20|ramadan |   },
+20|ramadan |   expires: '2026-03-21T15:49:20.066Z'
+20|ramadan | }
+20|ramadan | JWT Callback - User: undefined
+20|ramadan | JWT Callback - Token (Before): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: 'b6440495-b309-4b43-acad-1c2533417a4a'
+20|ramadan | }
+20|ramadan | JWT Callback - Token (After): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: 'b6440495-b309-4b43-acad-1c2533417a4a'
+20|ramadan | }
+20|ramadan | Session Callback - Token: {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: 'b6440495-b309-4b43-acad-1c2533417a4a'
+20|ramadan | }
+20|ramadan | Session Callback - Session: {
+20|ramadan |   user: {
+20|ramadan |     name: 'Musfiqur',
+20|ramadan |     email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |     image: undefined,
+20|ramadan |     id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |     role: 'USER'
+20|ramadan |   },
+20|ramadan |   expires: '2026-03-21T15:49:20.474Z'
+20|ramadan | }
+20|ramadan | JWT Callback - User: undefined
+20|ramadan | JWT Callback - Token (Before): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | JWT Callback - Token (After): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | Session Callback - Token: {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | Session Callback - Session: {
+20|ramadan |   user: {
+20|ramadan |     name: 'Musfiqur',
+20|ramadan |     email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |     image: undefined,
+20|ramadan |     id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |     role: 'USER'
+20|ramadan |   },
+20|ramadan |   expires: '2026-03-21T15:49:40.353Z'
+20|ramadan | }
+20|ramadan | JWT Callback - User: undefined
+20|ramadan | JWT Callback - Token (Before): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | JWT Callback - Token (After): {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | Session Callback - Token: {
+20|ramadan |   name: 'Musfiqur',
+20|ramadan |   email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |   sub: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |   role: 'USER',
+20|ramadan |   iat: 1771516160,
+20|ramadan |   exp: 1774108160,
+20|ramadan |   jti: '970986e6-9f0c-47e4-bd4f-cde32c3d17a7'
+20|ramadan | }
+20|ramadan | Session Callback - Session: {
+20|ramadan |   user: {
+20|ramadan |     name: 'Musfiqur',
+20|ramadan |     email: 'musfiqurrahmantuhin@gmail.com',
+20|ramadan |     image: undefined,
+20|ramadan |     id: 'cmltmweoh001o12jyye3vjl0q',
+20|ramadan |     role: 'USER'
+20|ramadan |   },
+20|ramadan |   expires: '2026-03-21T15:49:40.354Z'
+20|ramadan | }
+
