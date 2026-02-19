@@ -157,6 +157,7 @@ export default function RamadanDashboard({ initialDistrict }: Props) {
                 {/* District Selector (only on Today view) */}
                 {view === 'today' && (
                     <div className="mb-10 px-4">
+                        <AppDownloadBanner />
                         {data && (
                             <DistrictSelector
                                 districts={data.districts}
