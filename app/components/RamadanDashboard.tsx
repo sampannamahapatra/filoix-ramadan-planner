@@ -12,7 +12,9 @@ import Tasbeeh from './Tasbeeh';
 import NamesCarousel from './NamesCarousel';
 import PromoBanner from './PromoBanner';
 import Report from './Report';
+import AppDownloadBanner from './AppDownloadBanner';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { translations } from '../lib/translations';
 
 interface Props {
